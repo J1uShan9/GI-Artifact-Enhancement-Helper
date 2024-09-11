@@ -6,6 +6,7 @@
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <SelfContained>true</SelfContained>
 	  <ApplicationIcon>Resource/app.ico</ApplicationIcon>
 	  <Icon>Resource/app.ico</Icon>
   </PropertyGroup>
