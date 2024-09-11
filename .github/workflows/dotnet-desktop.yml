@@ -35,7 +35,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
@@ -48,6 +48,10 @@ jobs:
     # Build the application
     - name: Build the application
       run: msbuild $env:Solution_Name /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+    # List build directory contents to verify the output
+    - name: List build directory contents
+      run: Get-ChildItem -Recurse -Path "$env:GITHUB_WORKSPACE\bin\Release"
 
     # Rename the build artifacts
     - name: Rename build artifacts
