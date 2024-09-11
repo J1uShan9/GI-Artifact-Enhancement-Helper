@@ -52,7 +52,7 @@ jobs:
     # Rename the build artifacts
     - name: Rename build artifacts
       run: |
-        $buildDir = "$env:GITHUB_WORKSPACE\bin\Release"
+        $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows"
         $outputDir = "$env:GITHUB_WORKSPACE\output"
         New-Item -ItemType Directory -Force -Path $outputDir
         $outputFileName = "$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
