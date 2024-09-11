@@ -47,16 +47,6 @@ jobs:
     - name: Build the application
       run: msbuild $env:Solution_Name /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
-    - name: List build directory contents
-      run: |
-        Get-ChildItem -Recurse -Path "$env:GITHUB_WORKSPACE\bin\Release"
-        $exePath = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows\$env:Default_Name.exe"
-        if (Test-Path $exePath) {
-          echo "Executable file found: $exePath"
-        } else {
-          Write-Error "Executable file not found: $exePath"
-        }
-
     - name: Rename build artifacts
       run: |
         $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows"
