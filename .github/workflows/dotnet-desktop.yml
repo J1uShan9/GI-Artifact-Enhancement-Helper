@@ -74,6 +74,8 @@ jobs:
         } else {
           echo "Output directory found: $outputDir"
         }
+        Write-Output "Moving from: $exePath"
+        Write-Output "Moving to: $outputPath"
         if (Test-Path $exePath) {
           Move-Item -Path $exePath -Destination $outputPath -Force
         } else {
