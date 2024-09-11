@@ -75,7 +75,7 @@ jobs:
           echo "Output directory found: $outputDir"
         }
         if (Test-Path $exePath) {
-          Move-Item -Path $exePath -Destination $outputPath
+          Move-Item -Path $exePath -Destination $outputPath -Force
         } else {
           Write-Error "Executable file not found in the build directory: $exePath"
         }
