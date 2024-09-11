@@ -42,10 +42,13 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=Release /p:Platform="Any CPU /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true"
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=Release /p:Platform="Any CPU "
 
     - name: Build the application
-      run: msbuild $env:Solution_Name /t:Build /p:Configuration=Release /p:Platform="Any CPU /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true"
+      run: msbuild $env:Solution_Name /t:Build /p:Configuration=Release /p:Platform="Any CPU"
+
+    - name: Publish the application as single file
+      run: msbuild $env:Solution_Name /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishSingleFile=true /p:RuntimeIdentifier=win-x64
 
     - name: Rename build artifacts
       run: |
