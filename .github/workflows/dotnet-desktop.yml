@@ -68,8 +68,12 @@ jobs:
         $outputDir = "$env:GITHUB_WORKSPACE\output"
         New-Item -ItemType Directory -Force -Path $outputDir
         $outputFileName = "$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
-        $buildFileName = "$env:Default_Name.exe"
-        Move-Item -Path "$buildDir\$buildFileName" -Destination "$outputDir\$outputFileName"
+        $exePath = "$buildDir\$env:Project_Name.exe"
+        if (Test-Path $exePath) {
+          Move-Item -Path $exePath -Destination "$outputDir\$outputFileName"
+        } else {
+          Write-Error "Executable file not found in the build directory: $exePath"
+        }
 
     # Upload the build artifacts: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
