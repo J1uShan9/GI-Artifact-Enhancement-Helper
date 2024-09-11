@@ -17,7 +17,7 @@
 
         <!-- Log 显示框 -->
         <RichTextBox Name="LogTextBox" Grid.Row="0" Grid.Column="0" Margin="10" 
-                     IsReadOnly="False" VerticalScrollBarVisibility="Auto" />
+                     VerticalScrollBarVisibility="Auto" IsReadOnly="False" AcceptsReturn="False" />
 
         <!-- 字母按键区域 -->
         <UniformGrid Columns="4" Rows="3" Grid.Row="1" Grid.Column="0" Margin="10">
