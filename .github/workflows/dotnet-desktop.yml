@@ -71,25 +71,21 @@ jobs:
       run: |
         $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows"
         $outputDir = "$env:GITHUB_WORKSPACE\output"
+        
         New-Item -ItemType Directory -Force -Path $outputDir
+        
         $exePath = "$buildDir\$env:Default_Name.exe"
         $outputPath = "$outputDir\$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
-        if (-not (Test-Path $outputDir)) {
-          New-Item -ItemType Directory -Force -Path $outputDir
-        } else {
-          echo "Output directory found: $outputDir"
-        }
+        
         Write-Output "Moving from: $exePath"
-        Write-Output "OD: $outputDir"
+        Write-Output "Output Dir: $outputDir"
         Write-Output "Moving to: $outputPath"
-        if (Test-Path $exePath) {
-          Move-Item -Path $exePath -Destination $outputPath -Force
-        } else {
-          Write-Error "Executable file not found in the build directory: $exePath"
-        }
+        
+        Move-Item -Path $exePath -Destination $outputPath -Force
 
     # Upload the build artifacts: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
+      if: startsWith(github.ref, 'refs/tags/')
       uses: actions/upload-artifact@v3
       with:
         name: Build Artifacts
