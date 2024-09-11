@@ -6,6 +6,11 @@ on:
       - 'v*.*.*'
   pull_request:
 
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: windows-latest
