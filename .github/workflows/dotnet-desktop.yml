@@ -32,8 +32,6 @@ jobs:
         $ref = "${{ github.ref }}"
         if ($ref -match 'refs/tags/(.*)') {
           $tag = $matches[1]
-        } elseif ($ref -match 'refs/heads/(.*)') {
-          $tag = $matches[1]
         } else {
           $tag = "unknown"
         }
