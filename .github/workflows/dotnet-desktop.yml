@@ -67,8 +67,13 @@ jobs:
         $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows"
         $outputDir = "$env:GITHUB_WORKSPACE\output"
         New-Item -ItemType Directory -Force -Path $outputDir
-        $outputPath = "$outputDir\$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
         $exePath = "$buildDir\$env:Default_Name.exe"
+        $outputPath = "$outputDir\$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
+        if (-not (Test-Path $outputDir)) {
+          New-Item -ItemType Directory -Force -Path $outputDir
+        } else {
+          echo "Output directory found: $outputDir"
+        }
         if (Test-Path $exePath) {
           Move-Item -Path $exePath -Destination $outputPath
         } else {
