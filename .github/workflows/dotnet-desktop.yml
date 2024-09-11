@@ -52,7 +52,14 @@ jobs:
 
     # List build directory contents to verify the output
     - name: List build directory contents
-      run: Get-ChildItem -Recurse -Path "$env:GITHUB_WORKSPACE\bin\Release"
+      run: |
+        Get-ChildItem -Recurse -Path "$env:GITHUB_WORKSPACE\bin\Release"
+        $exePath = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows\$env:Default_Name.exe"
+        if (Test-Path $exePath) {
+          echo "Executable file found: $exePath"
+        } else {
+          Write-Error "Executable file not found: $exePath"
+        }
 
     # Rename the build artifacts
     - name: Rename build artifacts
@@ -61,12 +68,8 @@ jobs:
         $outputDir = "$env:GITHUB_WORKSPACE\output"
         New-Item -ItemType Directory -Force -Path $outputDir
         $outputFileName = "$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
-        $exePath = Get-ChildItem -Recurse -Path $buildDir -Filter "*.exe" | Select-Object -First 1
-        if ($exePath) {
-          Move-Item -Path $exePath.FullName -Destination "$outputDir\$outputFileName"
-        } else {
-          Write-Error "Executable file not found in the build directory."
-        }
+        $buildFileName = "$env:Default_Name.exe"
+        Move-Item -Path "$buildDir\$buildFileName" -Destination "$outputDir\$outputFileName"
 
     # Upload the build artifacts: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
