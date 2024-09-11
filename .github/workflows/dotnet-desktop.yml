@@ -68,7 +68,7 @@ jobs:
         $outputDir = "$env:GITHUB_WORKSPACE\output"
         New-Item -ItemType Directory -Force -Path $outputDir
         $outputFileName = "$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
-        $exePath = "$buildDir\$env:Project_Name.exe"
+        $exePath = "$buildDir\$env:Default_Name.exe"
         if (Test-Path $exePath) {
           Move-Item -Path $exePath -Destination "$outputDir\$outputFileName"
         } else {
