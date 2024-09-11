@@ -42,25 +42,19 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Restore the application
-      run: dotnet restore $env:Solution_Name
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=Release /p:Platform="Any CPU"
 
     - name: Build the application
       run: msbuild $env:Solution_Name /t:Build /p:Configuration=Release /p:Platform="Any CPU"
 
-    - name: Publish the application as single file
-      run: msbuild $env:Solution_Name /t:Publish /p:Configuration=Release /p:Platform="Any CPU" /p:PublishSingleFile=true /p:RuntimeIdentifier=win-x64
-
-    - name: Rename build artifacts
+    - name: Zip build artifacts
       run: |
-        $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows\win-x64\publish"
+        $buildDir = "$env:GITHUB_WORKSPACE\bin\Release\net6.0-windows"
         $outputDir = "$env:GITHUB_WORKSPACE\output"
+        $zipFileName = "$env:Project_Name-${{ steps.get_version.outputs.version }}.zip"
+        $zipFilePath = "$outputDir\$zipFileName"
         
-        New-Item -ItemType Directory -Force -Path $outputDir
-        
-        $exePath = "$buildDir\$env:Default_Name.exe"
-        $outputPath = "$outputDir\$env:Project_Name-${{ steps.get_version.outputs.version }}.exe"
-        
-        Move-Item -Path $exePath -Destination $outputPath -Force
+        Compress-Archive -Path "$buildDir\*" -DestinationPath $zipFilePath
 
     - name: Upload the Release
       uses: softprops/action-gh-release@v2
