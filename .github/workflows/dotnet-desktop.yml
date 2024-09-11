@@ -29,7 +29,14 @@ jobs:
     - name: Get version from tag
       id: get_version
       run: |
-        $tag = "${{ github.ref }}" -replace 'refs/tags/', ''
+        $ref = "${{ github.ref }}"
+        if ($ref -match 'refs/tags/(.*)') {
+          $tag = $matches[1]
+        } elseif ($ref -match 'refs/heads/(.*)') {
+          $tag = $matches[1]
+        } else {
+          $tag = "unknown"
+        }
         echo "version=$tag" >> $env:GITHUB_OUTPUT
 
     # Install the .NET Core workload
