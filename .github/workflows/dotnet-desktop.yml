@@ -16,7 +16,8 @@ jobs:
 
     env:
       Solution_Name: WpfApp.sln
-      Project_Name: WpfApp
+      Default_Name: WpfApp
+      Project_Name: GI-Artifact-Enhancement-Helper
 
     steps:
     - name: Checkout
